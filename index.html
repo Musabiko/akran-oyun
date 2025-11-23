@@ -13,16 +13,10 @@ textarea, select { width:80%; margin-bottom:10px; }
 </head>
 <body>
 
-<h1>Akran Zorbalığına Karşı Oyun</h1>
+<h1>10 Kelimelik Akran Zorbalığıyla Alakalı bir Cümle Yazınız</h1>
 <p>Puanınız: <span id="puan">0</span></p>
-
-<h2>Ana Görevler</h2>
-<div>
-  <h3>Görev 1: 10 Kelimelik bir Cümle Yaz (Kolay - 1 Puan)</h3>
-  <p>Akran zorbalığı ile ilgili bir paragraf yazın (en az 10 kelime):</p>
-  <textarea id="gorev1-text" rows="4" placeholder="Buraya yazınız..."></textarea><br>
-  <button onclick="gorevTamamla('gorev1',1)">Görevi Tamamla</button>
-</div>
+<textarea id="gorev1-text" rows="3" placeholder="Buraya yazınız..."></textarea><br>
+<button onclick="gorevTamamla('gorev1',1)">Görevi Tamamla</button>
 
 <h2>Mini Quizler (Opsiyonel)</h2>
 <button onclick="toggleQuiz('quiz1')">Mini Quiz 1 Aç / Kapat</button>
@@ -58,31 +52,13 @@ textarea, select { width:80%; margin-bottom:10px; }
 let puan = 0;
 let gorevTamamlandi = {};
 
-// 20 kabul edilebilir paragraf (merkez cevap)
-const dogruCevaplar = [
-  "Akran zorbalığı, öğrencilerin birbirine fiziksel, sözlü veya sosyal olarak zarar vermesidir.",
-  "Birine sürekli kötü davranmak, alay etmek veya dışlamak akran zorbalığının örneklerindendir.",
-  "Zorbalık yapan kişiyi uyarmak ve öğretmene haber vermek önemlidir.",
-  "Arkadaşlar arasında sürekli küçümseme veya aşağılama akran zorbalığıdır.",
-  "Akran zorbalığı, mağduru psikolojik olarak etkileyebilir ve özgüveni azaltabilir.",
-  "Sözlü hakaretler ve alay etmek, en yaygın akran zorbalığı türlerindendir.",
-  "Fiziksel saldırılar veya itmeler akran zorbalığının bir diğer şeklidir.",
-  "Birine grup dışında davranmak ve dışlamak sosyal zorbalıktır.",
-  "Zorbalıkla mücadele etmek için okul danışmanından yardım almak gerekir.",
-  "Akran zorbalığı önlenebilir ve doğru müdahaleyle durdurulabilir.",
-  "Öğrenciler birbirine destek olarak zorbalığı azaltabilir.",
-  "Zorbalık gören kişiye yardım etmek arkadaşlık sorumluluğudur.",
-  "Sosyal medya üzerinden yapılan taciz de akran zorbalığıdır.",
-  "Okul ortamında herkesin güvenli hissetmesi gerekir.",
-  "Akran zorbalığı ile ilgili farkındalık yaratmak önemlidir.",
-  "Zorbalığı gözlemleyen kişiler sessiz kalmamalıdır.",
-  "Sürekli alay etmek, dalga geçmek akran zorbalığıdır.",
-  "Akran zorbalığı hem mağdura hem de yapan kişiye zarar verir.",
-  "Öğretmen ve aile iş birliği ile zorbalık önlenebilir.",
-  "Empati kurmak ve yardım etmek zorbalığa karşı en iyi yöntemdir."
-];
+// 1000 kabul edilebilir cümle üretme
+const dogruCevaplar = [];
+for(let i=1;i<=1000;i++){
+    dogruCevaplar.push(`Akran zorbalığıyla ilgili örnek cümle on kelime içeriyor ${i}`);
+}
 
-// Basit benzerlik kontrolü (%60 kelime)
+// Benzerlik kontrolü (%60 kelime)
 function benzerMi(girilen, dogru) {
   girilen = girilen.toLowerCase().trim();
   dogru = dogru.toLowerCase().trim();
@@ -93,49 +69,44 @@ function benzerMi(girilen, dogru) {
     if (kelimelerDogru.includes(kelime)) sayac++;
   });
   const oran = sayac / kelimelerDogru.length;
-  return oran >= 0.6; // %60 benzerlik yeterli
+  return oran >= 0.6;
 }
 
 function gorevTamamla(gorevId, gorevPuan, dogruCevap = null) {
-  if (gorevTamamlandi[gorevId]) { 
-    alert("Bu görevi zaten tamamladınız!"); 
-    return; 
+  if (gorevTamamlandi[gorevId]) {
+    alert("Bu görevi zaten tamamladınız!");
+    return;
   }
-
   const textElement = document.getElementById(gorevId + "-text");
   const text = textElement.value.trim();
-
-  // Boş kontrol
-  if (text === "") { 
-    alert("Lütfen bir şey yazın veya cevap seçin."); 
-    return; 
+  
+  if (text === "") {
+    alert("Lütfen bir şey yazın!");
+    return;
   }
 
   // Minimum kelime sayısı kontrolü
   const kelimeler = text.split(/\s+/);
   if (kelimeler.length < 10) {
-    alert("Paragraf çok kısa! Lütfen en az 10 kelime yazın.");
+    alert("Cümle çok kısa! Lütfen en az 10 kelime yazın.");
     return;
   }
 
-  // Yaklaşık doğru cevap kontrolü (birden fazla kabul)
-  if (dogruCevaplar.length > 0) {
-    const kabul = dogruCevaplar.some(dc => benzerMi(text, dc));
-    if (!kabul) {
-      alert("Yanlış veya yeterince benzer değil! Lütfen daha uygun bir paragraf yazın.");
-      return;
-    }
+  // 1000 kabul edilebilir cümle içinde kontrol
+  const kabul = dogruCevaplar.some(dc => benzerMi(text, dc));
+  if(!kabul){
+    alert("Cümle uygun değil veya yeterince benzer değil!");
+    return;
   }
 
   // Copy-paste / tekrar kontrolü
   const uniqueKelimeler = [...new Set(kelimeler)];
   const oran = kelimeler.length > 0 ? uniqueKelimeler.length / kelimeler.length : 1;
-  if (oran < 0.6) {
-    alert("Üzgünüm, paragraf çok benzer görünüyor. Lütfen özgün yazınız!");
+  if(oran < 0.6){
+    alert("Cümle çok benzer kelimeler içeriyor. Lütfen özgün yazın!");
     return;
   }
 
-  // Puan ekleme
   puan += gorevPuan;
   document.getElementById('puan').innerText = puan;
   alert("Tebrikler! Görev tamamlandı ve " + gorevPuan + " puan kazandınız.");
