@@ -6,9 +6,7 @@
 <style>
 body { font-family: Arial; text-align:center; padding:20px; background:#f0f8ff; }
 button { padding:10px 20px; margin:5px; cursor:pointer; }
-textarea, select { width:80%; margin-bottom:10px; }
-.quiz { display:none; border:1px solid #0077b6; padding:10px; margin:10px auto; background:#e0f7fa; }
-#market { border-top:2px solid #0077b6; margin-top:20px; padding-top:10px; }
+textarea { width:80%; margin-bottom:10px; }
 </style>
 </head>
 <body>
@@ -18,62 +16,17 @@ textarea, select { width:80%; margin-bottom:10px; }
 <textarea id="gorev1-text" rows="3" placeholder="Buraya yazınız..."></textarea><br>
 <button onclick="gorevTamamla('gorev1',1)">Görevi Tamamla</button>
 
-<h2>Mini Quizler (Opsiyonel)</h2>
-<button onclick="toggleQuiz('quiz1')">Mini Quiz 1 Aç / Kapat</button>
-<div id="quiz1" class="quiz">
-  <p>Akran zorbalığı nedir?</p>
-  <select id="gorev2-text">
-    <option value="">Seçiniz</option>
-    <option value="Arkadaşlara yardım etmemek">Arkadaşlara yardım etmemek</option>
-    <option value="Birine kötü davranmak veya rahatsız etmek">Birine kötü davranmak veya rahatsız etmek</option>
-  </select><br>
-  <button onclick="gorevTamamla('gorev2',2,'Birine kötü davranmak veya rahatsız etmek')">Cevabı Gönder (+2 Puan)</button>
-</div>
-
-<button onclick="toggleQuiz('quiz2')">Mini Quiz 2 Aç / Kapat</button>
-<div id="quiz2" class="quiz">
-  <p>Bir arkadaşınız zorbalığa uğruyor, ne yaparsınız? Açıkça yazın:</p>
-  <textarea id="gorev3-text" rows="4" placeholder="Cevabınızı yazın..."></textarea><br>
-  <button onclick="gorevTamamla('gorev3',5)">Görevi Tamamla (+5 Puan)</button>
-</div>
-
-<div id="market">
-<h2>Market</h2>
-<p>Topladığınız puanlarla ödül alabilirsiniz:</p>
-<ul>
-  <li>5 Puan → Sticker</li>
-  <li>10 Puan → Küçük Rozet</li>
-  <li>20 Puan → Büyük Rozet</li>
-  <li>50 Puan → Özel Sürpriz</li>
-</ul>
-</div>
-
 <script>
 let puan = 0;
 let gorevTamamlandi = {};
 
-// 500 kelimelik kelime bankası
-const kelimeler = [
-"öğrenci","arkadaş","zorbalık","okul","sözlü","fiziksel","davranış","destek","yardım","olumsuz",
-"etki","psikolojik","duygusal","olay","rapor","çözüm","iletişim","çocuk","sosyal","davranışsal",
-"güvenlik","öğretmen","katılım","farkındalık","engellemek","ileti","gelişim","arkadaşlık","işbirliği","deneyim",
-"motivasyon","destekleme","problem","anlayış","empati","zorlayıcı","durum","iletişimsel","grup","lider",
-"görüşme","çatışma","duygu","iletişimci","özen","saygı","çözümleme","uygulama","deneyimleme","paylaşım",
-// ... buraya 450 kelime daha ekle
-];
-
-// 100.000 cümle üret
+// 10 kelimelik 1000 kabul edilebilir cümle
 const dogruCevaplar = [];
-for(let i=0;i<100000;i++){
-  let cumle = [];
-  while(cumle.length < 10){
-    const kelime = kelimeler[Math.floor(Math.random()*kelimeler.length)];
-    if(!cumle.includes(kelime)) cumle.push(kelime);
-  }
-  dogruCevaplar.push(cumle.join(" "));
+for(let i=1;i<=1000;i++){
+    dogruCevaplar.push(`Bu örnek cümle akran zorbalığı hakkında on kelime içerir ${i}`);
 }
 
-// Benzerlik kontrolü (%60 kelime)
+// Benzerlik kontrolü (%60 kelime eşleşmesi)
 function benzerMi(girilen, dogru) {
   girilen = girilen.toLowerCase().trim();
   dogru = dogru.toLowerCase().trim();
@@ -81,13 +34,13 @@ function benzerMi(girilen, dogru) {
   const kelimelerDogru = dogru.split(/\s+/);
   let sayac = 0;
   kelimelerGirilen.forEach(kelime => {
-    if(kelimelerDogru.includes(kelime)) sayac++;
+    if (kelimelerDogru.includes(kelime)) sayac++;
   });
   const oran = sayac / kelimelerDogru.length;
   return oran >= 0.6;
 }
 
-function gorevTamamla(gorevId, gorevPuan, dogruCevap = null) {
+function gorevTamamla(gorevId, gorevPuan) {
   if (gorevTamamlandi[gorevId]) {
     alert("Bu görevi zaten tamamladınız!");
     return;
@@ -100,20 +53,23 @@ function gorevTamamla(gorevId, gorevPuan, dogruCevap = null) {
     return;
   }
 
-  const kelimelerGirilen = text.split(/\s+/);
-  if (kelimelerGirilen.length < 10) {
+  // Minimum kelime sayısı kontrolü
+  const kelimeler = text.split(/\s+/);
+  if (kelimeler.length < 10) {
     alert("Cümle çok kısa! Lütfen en az 10 kelime yazın.");
     return;
   }
 
+  // 1000 kabul edilebilir cümle içinde kontrol
   const kabul = dogruCevaplar.some(dc => benzerMi(text, dc));
   if(!kabul){
     alert("Cümle uygun değil veya yeterince benzer değil!");
     return;
   }
 
-  const uniqueKelimeler = [...new Set(kelimelerGirilen)];
-  const oran = uniqueKelimeler.length / kelimelerGirilen.length;
+  // Copy-paste / tekrar kontrolü
+  const uniqueKelimeler = [...new Set(kelimeler)];
+  const oran = kelimeler.length > 0 ? uniqueKelimeler.length / kelimeler.length : 1;
   if(oran < 0.6){
     alert("Cümle çok benzer kelimeler içeriyor. Lütfen özgün yazın!");
     return;
@@ -124,15 +80,6 @@ function gorevTamamla(gorevId, gorevPuan, dogruCevap = null) {
   alert("Tebrikler! Görev tamamlandı ve " + gorevPuan + " puan kazandınız.");
   gorevTamamlandi[gorevId] = true;
   textElement.value = "";
-}
-
-function toggleQuiz(quizId) {
-  const quizDiv = document.getElementById(quizId);
-  if (quizDiv.style.display === "none" || quizDiv.style.display === "") {
-    quizDiv.style.display = "block";
-  } else {
-    quizDiv.style.display = "none";
-  }
 }
 </script>
 
