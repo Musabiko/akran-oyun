@@ -22,8 +22,7 @@ textarea, select { width:80%; margin-bottom:10px; }
   <p>Akran zorbalığı ile ilgili kısa bir paragraf yazın:</p>
   <textarea id="gorev1-text" rows="4" placeholder="Buraya yazınız..."></textarea><br>
   <button onclick="gorevTamamla('gorev1',1)">Görevi Tamamla</button>
-  function gorevTamamla(gorevId, gorevPuan, dogruCevap = null) {
-  if (gorevTamamlandi[gorevId]) { alert("Bu görevi zaten tamamladınız!"); return; }
+</div>
 
   const textElement = document.getElementById(gorevId + "-text");
   const text = textElement.value.trim();
@@ -115,3 +114,4 @@ function toggleQuiz(quizId) {
 
 </body>
 </html>
+
