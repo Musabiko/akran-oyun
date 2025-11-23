@@ -34,7 +34,12 @@ textarea, select { width:80%; margin-bottom:10px; }
     return; 
   }
 
-  // 🔹 Copy-paste kontrolü
+  // Buraya ekliyoruz:
+  if (text.length < 50) {
+    alert("Paragraf çok kısa! Lütfen daha detaylı yazın.");
+    return;
+  }
+    // 🔹 Copy-paste kontrolü
   const kelimeler = text.split(/\s+/);
   let tekrar = kelimeler.filter((v,i,a) => a.indexOf(v)!==i);
   if(tekrar.length > 5) { // Çok fazla tekrar varsa
@@ -114,4 +119,5 @@ function toggleQuiz(quizId) {
 
 </body>
 </html>
+
 
