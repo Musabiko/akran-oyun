@@ -1,1 +1,1 @@
-Bu sitede amacımız insanlara akran zorbalığının zararlarını eğlenceli bir şekilde anlatmak. Bu yüzden size görevler ve mini quizler hazırladım.
+Bu sitede amacımız insanlara akran zorbalığının zararlarını eğlenceli bir şekilde öğrenmesi. Bu yüzden size görevler ve mini quizler hazırladım.
