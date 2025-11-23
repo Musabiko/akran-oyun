@@ -21,7 +21,7 @@ textarea, select { width:80%; margin-bottom:10px; }
   <h3>Görev 1: Paragraf Yaz (Kolay - 1 Puan)</h3>
   <p>Akran zorbalığı ile ilgili kısa bir paragraf yazın:</p>
   <textarea id="gorev1-text" rows="4" placeholder="Buraya yazınız..."></textarea><br>
-  <button onclick="gorevTamamla('gorev1',1)">Görevi Tamamla</button>
+  <button onclick="gorevTamamla('gorev1',1,'Akran zorbalığı, birine kötü davranmak veya rahatsız etmektir')">Görevi Tamamla</button>
 </div>
 
 <h2>Mini Quizler (Opsiyonel)</h2>
@@ -58,6 +58,20 @@ textarea, select { width:80%; margin-bottom:10px; }
 let puan = 0;
 let gorevTamamlandi = {};
 
+// Yaklaşık doğru cevap kontrolü
+function benzerMi(girilen, dogru) {
+  girilen = girilen.toLowerCase().trim();
+  dogru = dogru.toLowerCase().trim();
+  const kelimelerGirilen = girilen.split(/\s+/);
+  const kelimelerDogru = dogru.split(/\s+/);
+  let sayac = 0;
+  kelimelerGirilen.forEach(kelime => {
+    if (kelimelerDogru.includes(kelime)) sayac++;
+  });
+  const oran = sayac / kelimelerDogru.length;
+  return oran >= 0.6; // %60 benzerlik yeterli
+}
+
 function gorevTamamla(gorevId, gorevPuan, dogruCevap = null) {
   if (gorevTamamlandi[gorevId]) { 
     alert("Bu görevi zaten tamamladınız!"); 
@@ -67,24 +81,26 @@ function gorevTamamla(gorevId, gorevPuan, dogruCevap = null) {
   const textElement = document.getElementById(gorevId + "-text");
   const text = textElement.value.trim();
 
+  // 1️⃣ Boş kontrol
   if (text === "") { 
     alert("Lütfen bir şey yazın veya cevap seçin."); 
     return; 
   }
 
-  // Minimum uzunluk kontrolü
-  if (text.length < 50) {
-    alert("Paragraf çok kısa! Lütfen daha detaylı yazın.");
+  // 2️⃣ Minimum kelime sayısı kontrolü
+  const kelimeler = text.trim().split(/\s+/);
+  if (kelimeler.length < 10) {
+    alert("Paragraf çok kısa! Lütfen en az 10 kelime yazın.");
     return;
   }
 
-  if (dogruCevap !== null && text !== dogruCevap) { 
-    alert("Yanlış cevap! Puan alamadınız."); 
-    return; 
+  // 3️⃣ Mini quiz veya yaklaşık doğru cevap kontrolü
+  if (dogruCevap !== null && !benzerMi(text, dogruCevap)) {
+    alert("Yanlış veya yeterince benzer değil! Lütfen daha uygun bir paragraf yazın.");
+    return;
   }
 
-  // Copy-paste kontrolü (basit)
-  const kelimeler = text.toLowerCase().match(/\b\w+\b/g) || [];
+  // 4️⃣ Copy-paste kontrolü
   const uniqueKelimeler = [...new Set(kelimeler)];
   const oran = kelimeler.length > 0 ? uniqueKelimeler.length / kelimeler.length : 1;
   if (oran < 0.6) {
@@ -92,6 +108,7 @@ function gorevTamamla(gorevId, gorevPuan, dogruCevap = null) {
     return;
   }
 
+  // 5️⃣ Puan ekleme
   puan += gorevPuan;
   document.getElementById('puan').innerText = puan;
   alert("Tebrikler! Görev tamamlandı ve " + gorevPuan + " puan kazandınız.");
