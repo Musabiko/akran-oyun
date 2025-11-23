@@ -52,13 +52,26 @@ textarea, select { width:80%; margin-bottom:10px; }
 let puan = 0;
 let gorevTamamlandi = {};
 
-// 100.000 kabul edilebilir cümle örnek üretim
+// Kelime bankası örneği
+const kelimeler = [
+  "öğrenciler", "arkadaş", "zorbalık", "okul", "sözlü", "fiziksel", "davranış", "destek", "yardım", 
+  "olumsuz", "etki", "psikolojik", "duygusal", "olay", "rapor", "çözüm", "iletişim", "çocuk", 
+  "sosyal", "davranışsal", "güvenlik", "öğretmen", "katılım", "farkındalık", "engellemek", 
+  "ileti", "gelişim", "arkadaşlık", "işbirliği", "deneyim", "motivasyon", "destekleme", "problem"
+];
+
+// 100.000 cümle üret
 const dogruCevaplar = [];
-for(let i=1;i<=100000;i++){
-    dogruCevaplar.push(`Akran zorbalığıyla ilgili örnek cümle on kelime içeriyor ${i}`);
+for(let i=0;i<100000;i++){
+  let cumle = [];
+  while(cumle.length < 10){
+    const kelime = kelimeler[Math.floor(Math.random()*kelimeler.length)];
+    if(!cumle.includes(kelime)) cumle.push(kelime);
+  }
+  dogruCevaplar.push(cumle.join(" "));
 }
 
-// Benzerlik kontrolü (%60 kelime eşleşmesi)
+// Benzerlik kontrolü (%60 kelime)
 function benzerMi(girilen, dogru) {
   girilen = girilen.toLowerCase().trim();
   dogru = dogru.toLowerCase().trim();
@@ -66,7 +79,7 @@ function benzerMi(girilen, dogru) {
   const kelimelerDogru = dogru.split(/\s+/);
   let sayac = 0;
   kelimelerGirilen.forEach(kelime => {
-    if (kelimelerDogru.includes(kelime)) sayac++;
+    if(kelimelerDogru.includes(kelime)) sayac++;
   });
   const oran = sayac / kelimelerDogru.length;
   return oran >= 0.6;
@@ -85,23 +98,20 @@ function gorevTamamla(gorevId, gorevPuan, dogruCevap = null) {
     return;
   }
 
-  // Minimum kelime sayısı kontrolü
-  const kelimeler = text.split(/\s+/);
-  if (kelimeler.length < 10) {
+  const kelimelerGirilen = text.split(/\s+/);
+  if (kelimelerGirilen.length < 10) {
     alert("Cümle çok kısa! Lütfen en az 10 kelime yazın.");
     return;
   }
 
-  // 100.000 kabul edilebilir cümle içinde kontrol
   const kabul = dogruCevaplar.some(dc => benzerMi(text, dc));
   if(!kabul){
     alert("Cümle uygun değil veya yeterince benzer değil!");
     return;
   }
 
-  // Copy-paste / tekrar kontrolü
-  const uniqueKelimeler = [...new Set(kelimeler)];
-  const oran = kelimeler.length > 0 ? uniqueKelimeler.length / kelimeler.length : 1;
+  const uniqueKelimeler = [...new Set(kelimelerGirilen)];
+  const oran = uniqueKelimeler.length / kelimelerGirilen.length;
   if(oran < 0.6){
     alert("Cümle çok benzer kelimeler içeriyor. Lütfen özgün yazın!");
     return;
