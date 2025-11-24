@@ -2,24 +2,36 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Akran Zorbalığı Görevleri & Mini Quizler</title>
+<title>Akran Zorbalığı Oyunu - Girişli</title>
 <style>
-body { font-family: Arial; padding:20px; }
-textarea, select { width:100%; padding:10px; margin:10px 0; }
+body { font-family: Arial; padding:20px; background:#f0f8ff; }
+textarea, select, input { width:100%; padding:10px; margin:10px 0; }
 button { padding:10px 20px; margin:5px 0; cursor:pointer; }
 .sayfa { display:none; }
 #puan { font-weight:bold; }
 .sonuc { margin-top:10px; font-weight:bold; font-size:16px; }
+h1,h2,h3 { text-align:center; }
 </style>
 </head>
 <body>
 
-<h1>📌 Akran Zorbalığı Görevleri ve Mini Quizler</h1>
-<p>Puanınız: <span id="puan">0</span></p>
+<h1>📌 Akran Zorbalığı Görevleri & Mini Quizler</h1>
+
+<!-- GİRİŞ / KAYIT -->
+<div id="loginPage" class="sayfa" style="display:block;">
+<h2>Giriş Yap veya Hesap Oluştur</h2>
+<input type="text" id="username" placeholder="Kullanıcı Adı">
+<input type="password" id="password" placeholder="Şifre">
+<button onclick="login()">Giriş Yap</button>
+<button onclick="register()">Hesap Oluştur</button>
+<p style="font-size:12px;">Lütfen şifrenizi unutmayacağınız bir şekilde seçin.</p>
+<div id="loginMessage" class="sonuc"></div>
+</div>
 
 <!-- MENÜ -->
-<div id="menu" class="sayfa" style="display:block;">
+<div id="menu" class="sayfa">
 <h2>MENÜ</h2>
+<p>Puanınız: <span id="puan">0</span></p>
 <button onclick="gotoPage('market')">🛒 Market</button><br>
 <button onclick="gotoPage('gorev1')">📝 Görev 1</button>
 <button onclick="gotoPage('gorev2')">📝 Görev 2</button>
@@ -33,12 +45,12 @@ button { padding:10px 20px; margin:5px 0; cursor:pointer; }
 <button onclick="gotoPage('quiz3')">❓ Mini Quiz 3</button>
 <button onclick="gotoPage('quiz4')">❓ Mini Quiz 4</button>
 <button onclick="gotoPage('quiz5')">❓ Mini Quiz 5</button>
+<button onclick="logout()">🚪 Çıkış Yap</button>
 </div>
 
 <!-- MARKET -->
 <div id="market" class="sayfa">
 <h2>🛒 MARKET</h2>
-<p>Topladığınız puanlarla ödül alabilirsiniz:</p>
 <ul>
 <li>5 Puan → Sticker</li>
 <li>10 Puan → Küçük Rozet</li>
@@ -109,11 +121,11 @@ button { padding:10px 20px; margin:5px 0; cursor:pointer; }
 <div id="quiz1" class="sayfa">
 <h3>Mini Quiz 1: Akran zorbalığı nedir?</h3>
 <select id="quizCevap1">
-  <option value="">Seçiniz</option>
-  <option value="1">Arkadaşlara yardım etmemek</option>
-  <option value="2">Birine kötü davranmak veya rahatsız etmek</option>
-  <option value="3">Birini kutlamak</option>
-  <option value="4">Oyun oynamak</option>
+<option value="">Seçiniz</option>
+<option value="1">Arkadaşlara yardım etmemek</option>
+<option value="2">Birine kötü davranmak veya rahatsız etmek</option>
+<option value="3">Birini kutlamak</option>
+<option value="4">Oyun oynamak</option>
 </select><br>
 <button onclick="kontrolQuiz(1,2)">Gönder</button>
 <div id="sonucQuiz1" class="sonuc"></div>
@@ -123,11 +135,11 @@ button { padding:10px 20px; margin:5px 0; cursor:pointer; }
 <div id="quiz2" class="sayfa">
 <h3>Mini Quiz 2: Hangi davranış zorbalıktır?</h3>
 <select id="quizCevap2">
-  <option value="">Seçiniz</option>
-  <option value="1">Birini dışlamak</option>
-  <option value="2">Arkadaşlık göstermek</option>
-  <option value="3">Yardım etmek</option>
-  <option value="4">Oyun paylaşmak</option>
+<option value="">Seçiniz</option>
+<option value="1">Birini dışlamak</option>
+<option value="2">Arkadaşlık göstermek</option>
+<option value="3">Yardım etmek</option>
+<option value="4">Oyun paylaşmak</option>
 </select><br>
 <button onclick="kontrolQuiz(2,1)">Gönder</button>
 <div id="sonucQuiz2" class="sonuc"></div>
@@ -137,11 +149,11 @@ button { padding:10px 20px; margin:5px 0; cursor:pointer; }
 <div id="quiz3" class="sayfa">
 <h3>Mini Quiz 3: Sözlü zorbalık örneği hangisidir?</h3>
 <select id="quizCevap3">
-  <option value="">Seçiniz</option>
-  <option value="1">İltifat etmek</option>
-  <option value="2">Alay etmek</option>
-  <option value="3">Yardım etmek</option>
-  <option value="4">Teşvik etmek</option>
+<option value="">Seçiniz</option>
+<option value="1">İltifat etmek</option>
+<option value="2">Alay etmek</option>
+<option value="3">Yardım etmek</option>
+<option value="4">Teşvik etmek</option>
 </select><br>
 <button onclick="kontrolQuiz(3,2)">Gönder</button>
 <div id="sonucQuiz3" class="sonuc"></div>
@@ -151,11 +163,11 @@ button { padding:10px 20px; margin:5px 0; cursor:pointer; }
 <div id="quiz4" class="sayfa">
 <h3>Mini Quiz 4: Fiziksel zorbalık nedir?</h3>
 <select id="quizCevap4">
-  <option value="">Seçiniz</option>
-  <option value="1">Dövme veya itme</option>
-  <option value="2">Tebrik etme</option>
-  <option value="3">Yardım etme</option>
-  <option value="4">Övgü verme</option>
+<option value="">Seçiniz</option>
+<option value="1">Dövme veya itme</option>
+<option value="2">Tebrik etme</option>
+<option value="3">Yardım etme</option>
+<option value="4">Övgü verme</option>
 </select><br>
 <button onclick="kontrolQuiz(4,1)">Gönder</button>
 <div id="sonucQuiz4" class="sonuc"></div>
@@ -165,11 +177,11 @@ button { padding:10px 20px; margin:5px 0; cursor:pointer; }
 <div id="quiz5" class="sayfa">
 <h3>Mini Quiz 5: Psikolojik zorbalık örneği hangisidir?</h3>
 <select id="quizCevap5">
-  <option value="">Seçiniz</option>
-  <option value="1">Arkadaşları dışlamak</option>
-  <option value="2">Övgü vermek</option>
-  <option value="3">Teşvik etmek</option>
-  <option value="4">Yardım etmek</option>
+<option value="">Seçiniz</option>
+<option value="1">Arkadaşları dışlamak</option>
+<option value="2">Övgü vermek</option>
+<option value="3">Teşvik etmek</option>
+<option value="4">Yardım etmek</option>
 </select><br>
 <button onclick="kontrolQuiz(5,1)">Gönder</button>
 <div id="sonucQuiz5" class="sonuc"></div>
@@ -177,11 +189,51 @@ button { padding:10px 20px; margin:5px 0; cursor:pointer; }
 </div>
 
 <script>
+// Kullanıcı ve puan işlemleri
 let puan=0;
+let currentUser=null;
 
+function saveScore(){
+  if(currentUser) localStorage.setItem("puan_"+currentUser, puan);
+}
+function loadScore(){
+  if(currentUser) {
+    let s = localStorage.getItem("puan_"+currentUser);
+    puan = s?parseInt(s):0;
+    document.getElementById("puan").innerText=puan;
+  }
+}
+
+function register(){
+  let u=document.getElementById("username").value.trim();
+  let p=document.getElementById("password").value.trim();
+  if(!u||!p){document.getElementById("loginMessage").innerText="Lütfen tüm alanları doldurun!"; return;}
+  if(localStorage.getItem("user_"+u)){document.getElementById("loginMessage").innerText="Kullanıcı zaten var!"; return;}
+  localStorage.setItem("user_"+u,p);
+  document.getElementById("loginMessage").innerText="✅ Hesap oluşturuldu! Artık giriş yapabilirsiniz.";
+}
+function login(){
+  let u=document.getElementById("username").value.trim();
+  let p=document.getElementById("password").value.trim();
+  if(localStorage.getItem("user_"+u)===p){
+    currentUser=u;
+    loadScore();
+    gotoPage("menu");
+  } else {
+    document.getElementById("loginMessage").innerText="❌ Kullanıcı adı veya şifre yanlış!";
+  }
+}
+function logout(){
+  currentUser=null;
+  puan=0;
+  document.getElementById("loginMessage").innerText="";
+  gotoPage("loginPage");
+}
+
+// SAYFA GEÇİŞİ
 function gotoPage(p){
-  document.querySelectorAll(".sayfa").forEach(s => s.style.display = "none");
-  document.getElementById(p).style.display = "block";
+  document.querySelectorAll(".sayfa").forEach(s => s.style.display="none");
+  document.getElementById(p).style.display="block";
 }
 
 // ANAHTAR KELİMELER
@@ -207,6 +259,7 @@ function kontrolGen(id,anahtar,sonucId,kelimeMin=0,puanG=1){
   if(dogru){
     puan+=puanG;
     document.getElementById("puan").innerText=puan;
+    saveScore();
     sonuc.style.color="green";
     sonuc.innerHTML="✅ Doğru!";
   } else {
@@ -230,6 +283,7 @@ function kontrolQuiz(no,dogruSik){
   if(sec==dogruSik){
     puan+=2;
     document.getElementById("puan").innerText=puan;
+    saveScore();
     sonuc.style.color="green";
     sonuc.innerHTML="✅ Doğru! (+2 Puan)";
   } else {
@@ -238,6 +292,5 @@ function kontrolQuiz(no,dogruSik){
   }
 }
 </script>
-
 </body>
 </html>
