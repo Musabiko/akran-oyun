@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Akran Zorbalığı Görevleri & Market</title>
+<title>Akran Zorbalığı Görevleri & Mini Quizler</title>
 <style>
 body { font-family: Arial; padding:20px; }
 textarea, select { width:100%; padding:10px; margin:10px 0; }
@@ -14,7 +14,7 @@ button { padding:10px 20px; margin:5px 0; cursor:pointer; }
 </head>
 <body>
 
-<h1>📌 Akran Zorbalığı Görevleri</h1>
+<h1>📌 Akran Zorbalığı Görevleri ve Mini Quizler</h1>
 <p>Puanınız: <span id="puan">0</span></p>
 
 <!-- MENÜ -->
@@ -28,7 +28,11 @@ button { padding:10px 20px; margin:5px 0; cursor:pointer; }
 <button onclick="gotoPage('gorev5')">📝 Görev 5</button>
 <button onclick="gotoPage('gorev6')">📝 Görev 6</button>
 <button onclick="gotoPage('gorev7')">📝 Görev 7</button>
-<button onclick="gotoPage('quiz1')">❓ Mini Quiz</button>
+<button onclick="gotoPage('quiz1')">❓ Mini Quiz 1</button>
+<button onclick="gotoPage('quiz2')">❓ Mini Quiz 2</button>
+<button onclick="gotoPage('quiz3')">❓ Mini Quiz 3</button>
+<button onclick="gotoPage('quiz4')">❓ Mini Quiz 4</button>
+<button onclick="gotoPage('quiz5')">❓ Mini Quiz 5</button>
 </div>
 
 <!-- MARKET -->
@@ -101,26 +105,80 @@ button { padding:10px 20px; margin:5px 0; cursor:pointer; }
 <button onclick="gotoPage('menu')">◀ Geri</button>
 </div>
 
-<!-- MINI QUIZ -->
+<!-- MINI QUIZLER -->
 <div id="quiz1" class="sayfa">
-<h3>Mini Quiz: Akran zorbalığı nedir?</h3>
-<p>Doğru cevabı seçin:</p>
-<select id="quizCevap">
+<h3>Mini Quiz 1: Akran zorbalığı nedir?</h3>
+<select id="quizCevap1">
   <option value="">Seçiniz</option>
   <option value="1">Arkadaşlara yardım etmemek</option>
   <option value="2">Birine kötü davranmak veya rahatsız etmek</option>
   <option value="3">Birini kutlamak</option>
   <option value="4">Oyun oynamak</option>
 </select><br>
-<button onclick="kontrolQuiz()">Gönder</button>
-<div id="sonucQuiz" class="sonuc"></div>
+<button onclick="kontrolQuiz(1,2)">Gönder</button>
+<div id="sonucQuiz1" class="sonuc"></div>
+<button onclick="gotoPage('menu')">◀ Geri</button>
+</div>
+
+<div id="quiz2" class="sayfa">
+<h3>Mini Quiz 2: Hangi davranış zorbalıktır?</h3>
+<select id="quizCevap2">
+  <option value="">Seçiniz</option>
+  <option value="1">Birini dışlamak</option>
+  <option value="2">Arkadaşlık göstermek</option>
+  <option value="3">Yardım etmek</option>
+  <option value="4">Oyun paylaşmak</option>
+</select><br>
+<button onclick="kontrolQuiz(2,1)">Gönder</button>
+<div id="sonucQuiz2" class="sonuc"></div>
+<button onclick="gotoPage('menu')">◀ Geri</button>
+</div>
+
+<div id="quiz3" class="sayfa">
+<h3>Mini Quiz 3: Sözlü zorbalık örneği hangisidir?</h3>
+<select id="quizCevap3">
+  <option value="">Seçiniz</option>
+  <option value="1">İltifat etmek</option>
+  <option value="2">Alay etmek</option>
+  <option value="3">Yardım etmek</option>
+  <option value="4">Teşvik etmek</option>
+</select><br>
+<button onclick="kontrolQuiz(3,2)">Gönder</button>
+<div id="sonucQuiz3" class="sonuc"></div>
+<button onclick="gotoPage('menu')">◀ Geri</button>
+</div>
+
+<div id="quiz4" class="sayfa">
+<h3>Mini Quiz 4: Fiziksel zorbalık nedir?</h3>
+<select id="quizCevap4">
+  <option value="">Seçiniz</option>
+  <option value="1">Dövme veya itme</option>
+  <option value="2">Tebrik etme</option>
+  <option value="3">Yardım etme</option>
+  <option value="4">Övgü verme</option>
+</select><br>
+<button onclick="kontrolQuiz(4,1)">Gönder</button>
+<div id="sonucQuiz4" class="sonuc"></div>
+<button onclick="gotoPage('menu')">◀ Geri</button>
+</div>
+
+<div id="quiz5" class="sayfa">
+<h3>Mini Quiz 5: Psikolojik zorbalık örneği hangisidir?</h3>
+<select id="quizCevap5">
+  <option value="">Seçiniz</option>
+  <option value="1">Arkadaşları dışlamak</option>
+  <option value="2">Övgü vermek</option>
+  <option value="3">Teşvik etmek</option>
+  <option value="4">Yardım etmek</option>
+</select><br>
+<button onclick="kontrolQuiz(5,1)">Gönder</button>
+<div id="sonucQuiz5" class="sonuc"></div>
 <button onclick="gotoPage('menu')">◀ Geri</button>
 </div>
 
 <script>
 let puan=0;
 
-// SAYFA GEÇİŞ
 function gotoPage(p){
   document.querySelectorAll(".sayfa").forEach(s=>s.style.display="none");
   document.getElementById(p).style.display="block";
@@ -135,7 +193,6 @@ const anahtar5=["sözlü","fiziksel","psikolojik","dışlama","alay"];
 const anahtar6=["deneyim","his","gözlem","düşünce","zarar"];
 const anahtar7=["çözüm","düşünce","strateji","yardım","alternatif"];
 
-// GENEL KONTROL FONKSİYONU
 function kontrolGen(id,anahtar,sonucId,kelimeMin=0,puanG=1){
   let yazi=document.getElementById(id).value.toLowerCase();
   let sonuc=document.getElementById(sonucId);
@@ -158,7 +215,6 @@ function kontrolGen(id,anahtar,sonucId,kelimeMin=0,puanG=1){
   }
 }
 
-// Her görev için
 function kontrol1(){kontrolGen("cevap1",anahtar1,"sonuc1",10,1);}
 function kontrol2(){kontrolGen("cevap2",anahtar2,"sonuc2",0,2);}
 function kontrol3(){kontrolGen("cevap3",anahtar3,"sonuc3",5,2);}
@@ -168,10 +224,10 @@ function kontrol6(){kontrolGen("cevap6",anahtar6,"sonuc6",5,2);}
 function kontrol7(){kontrolGen("cevap7",anahtar7,"sonuc7",5,3);}
 
 // MINI QUIZ KONTROL
-function kontrolQuiz(){
-  let sec=document.getElementById("quizCevap").value;
-  let sonuc=document.getElementById("sonucQuiz");
-  if(sec==="2"){ // doğru şık
+function kontrolQuiz(no,dogruSik){
+  let sec=document.getElementById("quizCevap"+no).value;
+  let sonuc=document.getElementById("sonucQuiz"+no);
+  if(sec==dogruSik){
     puan+=2;
     document.getElementById("puan").innerText=puan;
     sonuc.style.color="green";
