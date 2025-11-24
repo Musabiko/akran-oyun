@@ -5,11 +5,11 @@
 <title>Akran Zorbalığı Görevleri & Market</title>
 <style>
 body { font-family: Arial; padding:20px; }
-textarea { width:100%; padding:10px; margin:10px 0; }
+textarea, select { width:100%; padding:10px; margin:10px 0; }
 button { padding:10px 20px; margin:5px 0; cursor:pointer; }
 .sayfa { display:none; }
 #puan { font-weight:bold; }
-#sonuc1,#sonuc2,#sonuc3,#sonuc4,#sonuc5,#sonuc6,#sonuc7 { margin-top:10px; font-weight:bold; font-size:16px; }
+.sonuc { margin-top:10px; font-weight:bold; font-size:16px; }
 </style>
 </head>
 <body>
@@ -27,13 +27,14 @@ button { padding:10px 20px; margin:5px 0; cursor:pointer; }
 <button onclick="gotoPage('gorev4')">📝 Görev 4</button><br>
 <button onclick="gotoPage('gorev5')">📝 Görev 5</button><br>
 <button onclick="gotoPage('gorev6')">📝 Görev 6</button><br>
-<button onclick="gotoPage('gorev7')">📝 Görev 7</button>
+<button onclick="gotoPage('gorev7')">📝 Görev 7</button><br>
+<button onclick="gotoPage('quiz1')">❓ Mini Quiz</button>
 </div>
 
 <!-- MARKET -->
 <div id="market" class="sayfa">
 <h2>🛒 MARKET</h2>
-<p>Burada topladığınız puanlarla ödüller alabilirsiniz:</p>
+<p>Topladığınız puanlarla ödül alabilirsiniz:</p>
 <ul>
 <li>5 Puan → Sticker</li>
 <li>10 Puan → Küçük Rozet</li>
@@ -44,103 +45,111 @@ button { padding:10px 20px; margin:5px 0; cursor:pointer; }
 </div>
 
 <!-- GÖREVLER -->
-<!-- Görev 1 -->
 <div id="gorev1" class="sayfa">
 <h3>Görev 1: 10 Kelimelik Akran Zorbalığıyla Alakalı Bir Cümle Yazınız</h3>
 <textarea id="cevap1" rows="4"></textarea>
 <button onclick="kontrol1()">Gönder</button>
-<div id="sonuc1"></div>
+<div id="sonuc1" class="sonuc"></div>
 <button onclick="gotoPage('menu')">◀ Geri</button>
 </div>
 
-<!-- Görev 2 -->
 <div id="gorev2" class="sayfa">
 <h3>Görev 2: Akran zorbalığına uğrasaydınız kiminle istişare ederdiniz?</h3>
 <textarea id="cevap2" rows="3"></textarea>
 <button onclick="kontrol2()">Gönder</button>
-<div id="sonuc2"></div>
+<div id="sonuc2" class="sonuc"></div>
 <button onclick="gotoPage('menu')">◀ Geri</button>
 </div>
 
-<!-- Görev 3 -->
 <div id="gorev3" class="sayfa">
 <h3>Görev 3: Zorbalığa karşı nasıl davranmak gerektiğini yaz</h3>
 <textarea id="cevap3" rows="3"></textarea>
 <button onclick="kontrol3()">Gönder</button>
-<div id="sonuc3"></div>
+<div id="sonuc3" class="sonuc"></div>
 <button onclick="gotoPage('menu')">◀ Geri</button>
 </div>
 
-<!-- Görev 4 -->
 <div id="gorev4" class="sayfa">
 <h3>Görev 4: Bir arkadaşını koruduğun bir anı anlat</h3>
 <textarea id="cevap4" rows="4"></textarea>
 <button onclick="kontrol4()">Gönder</button>
-<div id="sonuc4"></div>
+<div id="sonuc4" class="sonuc"></div>
 <button onclick="gotoPage('menu')">◀ Geri</button>
 </div>
 
-<!-- Görev 5 -->
 <div id="gorev5" class="sayfa">
 <h3>Görev 5: Bir zorbalık türü söyle</h3>
 <textarea id="cevap5" rows="2"></textarea>
 <button onclick="kontrol5()">Gönder</button>
-<div id="sonuc5"></div>
+<div id="sonuc5" class="sonuc"></div>
 <button onclick="gotoPage('menu')">◀ Geri</button>
 </div>
 
-<!-- Görev 6 -->
 <div id="gorev6" class="sayfa">
 <h3>Görev 6: Sence akran zorbalığı nedir, sana göre?</h3>
 <textarea id="cevap6" rows="3"></textarea>
 <button onclick="kontrol6()">Gönder</button>
-<div id="sonuc6"></div>
+<div id="sonuc6" class="sonuc"></div>
 <button onclick="gotoPage('menu')">◀ Geri</button>
 </div>
 
-<!-- Görev 7 -->
 <div id="gorev7" class="sayfa">
 <h3>Görev 7: Eğer akran zorbalığı yaşadığında anlatacak kimsen olmasaydı bu sorunu nasıl çözerdin?</h3>
 <textarea id="cevap7" rows="3"></textarea>
 <button onclick="kontrol7()">Gönder</button>
-<div id="sonuc7"></div>
+<div id="sonuc7" class="sonuc"></div>
+<button onclick="gotoPage('menu')">◀ Geri</button>
+</div>
+
+<!-- MINI QUIZ -->
+<div id="quiz1" class="sayfa">
+<h3>Mini Quiz: Akran zorbalığı nedir?</h3>
+<p>Doğru cevabı seçin:</p>
+<select id="quizCevap">
+  <option value="">Seçiniz</option>
+  <option value="1">Arkadaşlara yardım etmemek</option>
+  <option value="2">Birine kötü davranmak veya rahatsız etmek</option>
+  <option value="3">Birini kutlamak</option>
+  <option value="4">Oyun oynamak</option>
+</select><br>
+<button onclick="kontrolQuiz()">Gönder</button>
+<div id="sonucQuiz" class="sonuc"></div>
 <button onclick="gotoPage('menu')">◀ Geri</button>
 </div>
 
 <script>
-let puan = 0;
+let puan=0;
 
 // SAYFA GEÇİŞ
-function gotoPage(p) {
-  document.querySelectorAll(".sayfa").forEach(s => s.style.display="none");
+function gotoPage(p){
+  document.querySelectorAll(".sayfa").forEach(s=>s.style.display="none");
   document.getElementById(p).style.display="block";
 }
 
-// GÖREV ANAHTAR KELİMELER
-const anahtar1 = ["akran","zorbalık","saygı","arkadaşlık"];
-const anahtar2 = ["rehber","rehberlik","öğretmen","hoca","anne","baba","aile","psikolog","danışman","arkadaş"];
-const anahtar3 = ["savunma","arkadaş","öğretmen","yardım","sınır"];
-const anahtar4 = ["koruma","yardım","arkadaş","müdahale","cesaret"];
-const anahtar5 = ["sözlü","fiziksel","psikolojik","dışlama","alay"];
-const anahtar6 = ["deneyim","his","gözlem","düşünce","zarar"];
-const anahtar7 = ["çözüm","düşünce","strateji","yardım","alternatif"];
+// ANAHTAR KELİMELER
+const anahtar1=["akran","zorbalık","saygı","arkadaşlık"];
+const anahtar2=["rehber","rehberlik","öğretmen","hoca","anne","baba","aile","psikolog","danışman","arkadaş"];
+const anahtar3=["savunma","arkadaş","öğretmen","yardım","sınır"];
+const anahtar4=["koruma","yardım","arkadaş","müdahale","cesaret"];
+const anahtar5=["sözlü","fiziksel","psikolojik","dışlama","alay"];
+const anahtar6=["deneyim","his","gözlem","düşünce","zarar"];
+const anahtar7=["çözüm","düşünce","strateji","yardım","alternatif"];
 
-// KONTROL FONKSİYONLARI
-function kontrolGen(cevapId, anahtar, sonucId, kelimeMin=0, puanG=1){
-  let yazi = document.getElementById(cevapId).value.toLowerCase();
-  let sonuc = document.getElementById(sonucId);
+// GENEL KONTROL FONKSİYONU
+function kontrolGen(id,anahtar,sonucId,kelimeMin=0,puanG=1){
+  let yazi=document.getElementById(id).value.toLowerCase();
+  let sonuc=document.getElementById(sonucId);
 
-  // kelime sınırı varsa kontrol
   if(kelimeMin>0 && yazi.trim().split(/\s+/).length<kelimeMin){
     sonuc.style.color="red";
     sonuc.innerHTML="❌ Lütfen soruyla alakalı bir cevap verdiğinizden emin olun.";
     return;
   }
 
-  let dogru = anahtar.some(k=>yazi.includes(k));
+  let dogru=anahtar.some(k=>yazi.includes(k));
   if(dogru){
-    puan += puanG;
-    document.getElementById("puan").innerText = puan;
+    puan+=puanG;
+    document.getElementById("puan").innerText=puan;
     sonuc.style.color="green";
     sonuc.innerHTML="✅ Doğru!";
   } else {
@@ -149,14 +158,29 @@ function kontrolGen(cevapId, anahtar, sonucId, kelimeMin=0, puanG=1){
   }
 }
 
-// Her görev için fonksiyon
-function kontrol1(){ kontrolGen("cevap1",anahtar1,"sonuc1",10,1);}
-function kontrol2(){ kontrolGen("cevap2",anahtar2,"sonuc2",0,2);}
-function kontrol3(){ kontrolGen("cevap3",anahtar3,"sonuc3",5,2);}
-function kontrol4(){ kontrolGen("cevap4",anahtar4,"sonuc4",8,3);}
-function kontrol5(){ kontrolGen("cevap5",anahtar5,"sonuc5",3,1);}
-function kontrol6(){ kontrolGen("cevap6",anahtar6,"sonuc6",5,2);}
-function kontrol7(){ kontrolGen("cevap7",anahtar7,"sonuc7",5,3);}
+// Her görev için
+function kontrol1(){kontrolGen("cevap1",anahtar1,"sonuc1",10,1);}
+function kontrol2(){kontrolGen("cevap2",anahtar2,"sonuc2",0,2);}
+function kontrol3(){kontrolGen("cevap3",anahtar3,"sonuc3",5,2);}
+function kontrol4(){kontrolGen("cevap4",anahtar4,"sonuc4",8,3);}
+function kontrol5(){kontrolGen("cevap5",anahtar5,"sonuc5",3,1);}
+function kontrol6(){kontrolGen("cevap6",anahtar6,"sonuc6",5,2);}
+function kontrol7(){kontrolGen("cevap7",anahtar7,"sonuc7",5,3);}
+
+// MINI QUIZ KONTROL
+function kontrolQuiz(){
+  let sec=document.getElementById("quizCevap").value;
+  let sonuc=document.getElementById("sonucQuiz");
+  if(sec==="2"){ // doğru şık
+    puan+=2;
+    document.getElementById("puan").innerText=puan;
+    sonuc.style.color="green";
+    sonuc.innerHTML="✅ Doğru! (+2 Puan)";
+  } else {
+    sonuc.style.color="red";
+    sonuc.innerHTML="❌ Yanlış seçim!";
+  }
+}
 </script>
 
 </body>
